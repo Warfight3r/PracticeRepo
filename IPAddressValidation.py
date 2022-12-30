@@ -1,16 +1,12 @@
-#create an app to read through files containing a list of IP addresses and to validate in a different file their validity.
-#Steps to follow:-
-#1. Learn how to read a file in python
-
-#test.txt, include all the addresses
-#read from it line by line
-#call a get request for each line.
-#save response with ip in a new file. 
 import requests
-
-f = open("IPAddresses.txt", "r")
-ip = f.read()
-print (ip)
-r = requests.get(url = "https://google.com")
-print(r.json())
-
+file_object = open("IPAddresses.txt", "r")
+ip_list = file_object.readlines()
+output_file_obj = open("RequestOutput.txt", "w")
+for ip in ip_list:
+    ip = ip.strip("\n")
+    r = requests.get(url=ip)
+    status = r.status_code
+    line = "for ip {} status_code {} \n".format(ip, status)
+    output_file_obj.write(line)
+file_object.close()
+output_file_obj.close()
